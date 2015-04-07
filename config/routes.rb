@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
-  get "/clients" => "client#show" 
-  get "/clients/:id" => "client#showspecifit"
+  get "/clients" => "client#index" 
+  get "/clients/:id" => "client#show"
   post "/clients" => "client#create"
   put "/clients/:id" => "client#update"
   delete "/clients/:id" => "client#delete"
-  # get "/clients/balance/:credential" => "client#balance"
+  post "/clients/create_acount/:id" => "client#account"
 
-   get "/accounts" => "account#show" 
-   get "/accounts/:id" => "account#showspecifit"
+   get "/accounts" => "account#index" 
+   get "/accounts/:id" => "account#show"
    delete "/accounts/:id" => "account#delete"
 end

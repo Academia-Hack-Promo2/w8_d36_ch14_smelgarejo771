@@ -1,10 +1,11 @@
 class ClientController < ApplicationController
-		def show
+	
+	def index
 		clients = Client.all
 		render json: clients.to_json
 	end
 
-	def showspecifit
+	def show
 		aux = Client.exists?((params[:id].to_i))
 		if aux == true
 			todo = Client.find((params[:id].to_i))
@@ -36,7 +37,7 @@ class ClientController < ApplicationController
 		end	
 	end
 
-		def update
+	def update
 		aux = Client.exists?((params[:id]).to_i)
 		if aux == true
 			client = Client.find((params[:id]).to_i)
@@ -48,20 +49,24 @@ class ClientController < ApplicationController
 		end
 	end
 
-	# def balance
-	# 	aux = (Client.where(credential: (params[:credential].to_i))).exists?
-	# 	if aux == true	
-	# 		client = Client.new(client_params)
-	# 		respuesta = client.check_balance(params)
-	# 		render json: respuesta.to_json
-	# 	else
-	# 		render json: {"Error" => "Ningun usuario posee la credencial"}	
-	# 	end	
-	# end	
+	def account
+		aux = Client.exists?((params[:id]).to_i)
+		if aux == true	
+			client = Client.new
+			respuesta = client.new_account(client_account_params)
+			render json: respuesta.to_json
+		else
+			render json: {"Error" => "El usuario no existe"}	
+		end	
+	end	
 
 	private
 
 	def client_params
 		params.permit(:first_name, :last_name, :credential, :addres,:local_phone, :movil_phone)
 	end	
+
+	def client_account_params
+		params.permit(:type, :number, :balance, :id)
+	end
 end

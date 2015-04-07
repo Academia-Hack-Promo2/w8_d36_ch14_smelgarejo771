@@ -1,11 +1,24 @@
 class Client < ActiveRecord::Base
-	# def check_balance (params)
-	# 	aux = (Client.where(credential: (params[:credential].to_i))).exists?
-	# 	if aux == true
-	# 		client = Client.where(credential: params[:credential].to_i)
-	# 		return client
-	# 	else	
-	# 		 return {"Error" => "La credencial ya esta registrada"}
-	# 	end	
-	# end	
+
+	validates :credential, uniqueness: true, presence: true, numericality: true, length: {maximum: 9}
+	validates :first_name, presence: true
+	validates :last_name, presence: true
+	validates :addres, presence: true
+	validates :local_phone, presence: true
+
+	def new_account (params)
+		client = Client.where(id: params[:id].to_i)
+		account = Account.new
+		account.type = params[:type].to_i
+		respuesta = account.create(params)
+		account.balance = params[:balance].to_s
+		
+		if account.valid?
+			account.save
+			return account
+		else
+			return respuesta
+		end	
+
+	end	
 end
