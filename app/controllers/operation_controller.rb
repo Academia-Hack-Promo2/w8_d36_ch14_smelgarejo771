@@ -1,0 +1,2 @@
+class OperationController < ApplicationController
+end
